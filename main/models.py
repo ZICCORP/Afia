@@ -7,7 +7,9 @@ class ActiveManager(models.Manager):
 
 
 class Product(models.Model):
+
     objects = ActiveManager()
+    tags = models.ManyToManyField('ProductTag',blank=True)
     name = models.CharField(max_length=32)
     description = models.TextField(blank=True)
     price = models.DecimalField(max_digits=6,decimal_places=2)
@@ -28,8 +30,12 @@ class ProductImage(models.Model):
     def __str__(self):
         return self.product.name
 
+class ProductTagManager(models.Manager):
+    def get_by_natural_key(self,slug):
+        return self.get(slug=slug)
+
 class ProductTag(models.Model):
-    products = models.ManyToManyField(Product,blank=True)
+    objects = ProductTagManager()
     name = models.CharField(max_length=32)
     slug = models.SlugField(max_length=48)
     description = models.TextField(blank=True)
@@ -37,3 +43,7 @@ class ProductTag(models.Model):
 
     def __str__(self):
         return self.name
+
+    
+    def natural_key(self):
+        return (self.slug,)

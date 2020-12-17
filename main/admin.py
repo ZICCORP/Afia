@@ -8,6 +8,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable=('in_stock',)
     search_fields =('name',)
     prepopulated_fields= {'slug':('name',)}
+    autocomplete_fields= ('tags',)
 
 admin.site.register(models.Product,ProductAdmin)
 
@@ -16,7 +17,7 @@ class ProductTagAdmin(admin.ModelAdmin):
     list_filter=('active',)
     search_fields =('name',)
     prepopulated_fields= {'slug':('name',)}
-    autocomplete_fields= ('products',)
+    
 
 admin.site.register(models.ProductTag,ProductTagAdmin)
 
@@ -27,7 +28,7 @@ class ProductImageAdmin(admin.ModelAdmin):
     search_fields =('product_name',)
     
     def thumbnail_tag(self,obj):
-        if obj.thumbnail_tag:
+        if obj.thumbnail:
             return format_html('<img src="%s"/>' % obj.thumbnail.url)
         return _
     thumbnail_tag.short_description = "Thumbnail"

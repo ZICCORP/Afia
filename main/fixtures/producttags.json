@@ -1,0 +1,74 @@
+[
+  {
+    "model": "main.producttag",
+    "fields": {
+      "name": "Adult clothing",
+      "slug": "adult-clothing",
+      "description": "Beautiful adult clothes",
+      "active": true
+    }
+  },
+  {
+    "model": "main.producttag",
+    "fields": {
+      "name": "Children clothing",
+      "slug": "children-clothing",
+      "description": "Beautiful children clothes",
+      "active": true
+    }
+  },
+  {
+    "model": "main.producttag",
+    "fields": {
+      "name": "Male shoes",
+      "slug": "male-shoes",
+      "description": "Amazing male shoes",
+      "active": true
+    }
+  },
+  {
+    "model": "main.producttag",
+    "fields": {
+      "name": "Female shoes",
+      "slug": "female-shoes",
+      "description": "Amazing female shoes",
+      "active": true
+    }
+  },
+  {
+    "model": "main.producttag",
+    "fields": {
+      "name": "Children shoes",
+      "slug": "children-shoes",
+      "description": "Amazing children shoes",
+      "active": true
+    }
+  },
+  {
+    "model": "main.producttag",
+    "fields": {
+      "name": "Toys",
+      "slug": "toys",
+      "description": "Nice toys",
+      "active": true
+    }
+  },
+  {
+    "model": "main.producttag",
+    "fields": {
+      "name": "cooking utensils",
+      "slug": "cooking-utensils",
+      "description": "Stock up your kitchen",
+      "active": true
+    }
+  },
+  {
+    "model": "main.producttag",
+    "fields": {
+      "name": "Home appliances",
+      "slug": "home-appliances",
+      "description": "stock up your living room",
+      "active": true
+    }
+  }
+]
