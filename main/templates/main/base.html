@@ -23,6 +23,12 @@
             </ul>
         </div>
     </nav>
+    {% if request.basket %}
+    <div>
+        {{ request.basket.count()}}
+        items in basket
+    </div>
+    {% endif %}
     {% for message in messages %}
     <div class="alert alert-{{ message.tags }}">{{ message }}</div>
     {% endfor %}
