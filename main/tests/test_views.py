@@ -71,10 +71,9 @@ class TestPage(TestCase):
 
 
     def test_address_list_page_returns_only_owned(self):
-        models.User.objects.create_user("user1@gmail.com",'abcdef11')
-        user1 = models.User.objects.get(email="user1@gmail.com")
-        models.User.objects.create_user("user2@gmail.com",'abcdef11')
-        user2 = models.User.objects.get(email="user2@gmail.com")
+       
+        user1 =models.User.objects.create_user("user1@gmail.com",'abcdef11')
+        user2 =models.User.objects.create_user("user2@gmail.com",'abcdef11')
         models.Address.objects.create(user=user1,name='Frank Chuka',address1='flat 3',address2='14 millenium estate',city='Ikeja',country='ng')
         add1 = models.Address.objects.get(user=user1)
         self.client.force_login(user2)
@@ -86,7 +85,7 @@ class TestPage(TestCase):
     def test_address_create_stores_user(self):
         models.User.objects.create_user("user1@gmail.com",'abcdef11')
         user1 = models.User.objects.get(email="user1@gmail.com")
-        post_data = {"name":"Frank Zuck","address1":'1 catherina str',"address2":'2 catherina str','zip_code':'FA23GW','city':'Lekki','country':'ng',}
+        post_data = {"name":"Frank Zuck","address1":'1 catherina str',"address2":'','zip_code':'FA23GW','city':'Lekki','country':'ng',}
         self.client.force_login(user1)
         self.client.post(reverse('address_create'),post_data)
         self.assertTrue(models.Address.objects.filter(user=user1).exists())
