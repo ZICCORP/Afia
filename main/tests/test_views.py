@@ -90,4 +90,18 @@ class TestPage(TestCase):
         self.client.post(reverse('address_create'),post_data)
         self.assertTrue(models.Address.objects.filter(user=user1).exists())
 
+    def test_add_to_basket_logged_in_works(self):
+        user1 = models.User.objects.create_user("user@email.com",'testpass123')
+        d = models.Product.objects.create(name='Detergent',slug='detergent',price=Decimal('10.00'),)
+        rl = models.Product.objects.create(name='Rechargeable Lantern',slug='rechargeable-lantern',price=Decimal('25.99'),)
+        self.client.force_login(user1)
+        response = self.client.get(reverse('add_to_basket'),{'product_id':d.id})
+        self.assertTrue(models.Basket.objects.filter(user=user1).exists())
+        self.assertEqual(models.BasketLine.objects.filter(basket_user=user).count(),1)
+        response = self.client.get(reverse('add_to_basket'),{'product_id':rl.id})
+        self.assertEqual(models.BasketLine.objects.filter(basket_user=user1).count(),2)
+
+
+
+
     

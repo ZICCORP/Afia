@@ -8,6 +8,8 @@ from main import models
 import logging
 from django.contrib.auth import login,authenticate
 from django.contrib import messages
+from django.http import HttpResponseRedirect
+
 
 logger = logging.getLogger('__name__')
 
@@ -92,3 +94,20 @@ class ProductListView(ListView):
         else:
             products = models.Product.objects.active()
         return products.order_by('name')    
+
+
+def add_to_basket(request):
+    product = get_object_or_404(models.Product,pk=request.GET.get("product_id"))
+    basket = request.basket
+    if not request.basket:
+        if request.user.is_authenticated:
+            user = request.user
+        else:
+            user = None
+        basket = models.Basket.objects.create(user=user)
+        request.session["basket_id"] = basket.id
+    basketline,created = models.BasketLine.objects.get_or_create(basket=basket,product=product)
+    if not created:
+        basketline.quantity += 1
+        basketline.save()
+    return HttpResponseRedirect(reverse("product",args=(product.slug,)))
