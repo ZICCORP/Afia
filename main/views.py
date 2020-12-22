@@ -3,7 +3,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from main import forms
 from django.urls import reverse,reverse_lazy
 from django.views.generic.list import ListView
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404,render
 from main import models
 import logging
 from django.contrib.auth import login,authenticate
@@ -111,3 +111,18 @@ def add_to_basket(request):
         basketline.quantity += 1
         basketline.save()
     return HttpResponseRedirect(reverse("product",args=(product.slug,)))
+
+def manage_basket(request):
+    
+    if not request.basket:
+        return render(request, "main/basket.html",{"formset":None})
+    if request.method == 'POST':
+        formset = forms.BasketLineFormSet(request.POST,instance=request.basket)
+        if formset.is_valid:
+            formset.save()
+    else:
+        formset = forms.BasketLineFormSet(instance=request.basket)
+
+    if request.basket.is_empty():
+        return render(request, "main/basket.html",{"formset":None})
+    return render(request, "main/basket.html",{"formset":formset})
