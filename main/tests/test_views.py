@@ -97,9 +97,23 @@ class TestPage(TestCase):
         self.client.force_login(user1)
         response = self.client.get(reverse('add_to_basket'),{'product_id':d.id})
         self.assertTrue(models.Basket.objects.filter(user=user1).exists())
-        self.assertEqual(models.BasketLine.objects.filter(basket_user=user).count(),1)
+        self.assertEqual(models.BasketLine.objects.filter(basket__user=user1).count(),1)
         response = self.client.get(reverse('add_to_basket'),{'product_id':rl.id})
-        self.assertEqual(models.BasketLine.objects.filter(basket_user=user1).count(),2)
+        self.assertEqual(models.BasketLine.objects.filter(basket__user=user1).count(),2)
+
+    def test_add_to_basket_login_merge_works(self):
+        user4 = models.User.objects.create_user(email='user4@gmail.com',password='testpass123')
+        d = models.Product.objects.create(name='Detergent',slug='detergent',price=Decimal('5.99'))
+        rl = models.Product.objects.create(name='Rechargeable Lantern',slug='rechargeable-lantern',price=Decimal('15.99'))
+        basket = models.Basket.objects.create(user=user4)
+        models.BasketLine.objects.create(basket=basket,product=d,quantity=2)
+        response = self.client.get(reverse('add_to_basket'),{'product_id':rl.id})
+        response = self.client.post(reverse('login'), {'email':'user4@gmail.com','password':'testpass123'},)
+        self.assertTrue(auth.get_user(self.client).is_authenticated)
+        self.assertTrue(models.Basket.objects.filter(user=user4).exists())
+        basket = models.Basket.objects.get(user=user4)
+        self.assertEqual(basket.count(),3)
+
 
 
 
