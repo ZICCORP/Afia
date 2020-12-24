@@ -17,6 +17,8 @@ urlpatterns = [
     path('product/<slug:slug>/', DetailView.as_view(model=models.Product),name='product',),
     path('add_to_basket/',views.add_to_basket,name='add_to_basket',),
     path('basket/',views.manage_basket,name='basket'),
+    path('order/done/',TemplateView.as_view(template_name='main/order_done.html'),name='checkout_done',),
+    path('order/address_select/',views.AddressSelectionView.as_view(),name='address_select',),
     path('about-us/',TemplateView.as_view(template_name='main/about_us.html'),name='about_us'),
     path('contact-us/',views.ContactUsView.as_view(),name='contact_us'),
     path('',TemplateView.as_view(template_name='main/home.html'),name='home'),

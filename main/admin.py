@@ -53,3 +53,6 @@ class ProductImageAdmin(admin.ModelAdmin):
         return obj.product.name
 
 admin.site.register(models.ProductImage,ProductImageAdmin)
+
+admin.site.register(models.Basket)
+admin.site.register(models.BasketLine)

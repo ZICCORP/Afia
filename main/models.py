@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser,BaseUserManager
 from django.core.validators import MinValueValidator
 import logging
+from . import exceptions
 
 logger = logging.getLogger(__name__)
 
@@ -153,7 +154,7 @@ class Basket(models.Model):
     def create_order(self,billing_address,shipping_address):
 
         if not self.user:
-            raise exception.BasketException("Cannot creeate order without user.")
+            raise  exceptions.BasketException("Cannot create order without user.")
         logger.info("Creating order for basket_id=%d"", shipping_address_id=%d, billing_address_id=%d",
         self.id,billing_address.id,shipping_address.id,)
         order_data = {
@@ -185,9 +186,6 @@ class Basket(models.Model):
         self.status = Basket.SUBMITTED
         self.save()
         return order
-
-
-
 
 
 class BasketLine(models.Model):
