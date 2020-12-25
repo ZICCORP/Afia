@@ -144,7 +144,8 @@ class Basket(models.Model):
     STATUSES = ((OPEN,"Open"),(SUBMITTED,"Submitted"))
     user = models.ForeignKey(User,on_delete=models.CASCADE,blank=True,null=True)
     status = models.IntegerField(choices=STATUSES,default=OPEN)
-
+    
+    
     def is_empty(self):
         return self.basketline_set.all().count() == 0
 
