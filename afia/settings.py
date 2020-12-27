@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
+    'webpack_loader',
 ]
 
 MIDDLEWARE = [
@@ -79,8 +80,15 @@ DATABASES = {
 }
 
 
-# Password validation
-# https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
+WEBPACK_LOADER = {
+    "DEFAULT": {
+        "BUNDLE_DIR_NAME": "bundles/",
+        "STATS_FILE": os.path.join(
+            BASE_DIR, "webpack-stats.json"
+        ),
+    }
+}
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -163,3 +171,5 @@ else:
 
 AUTH_USER_MODEL = 'main.User'
 LOGIN_REDIRECT_URL = '/'
+
+

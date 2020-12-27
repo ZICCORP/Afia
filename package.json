@@ -1,0 +1,41 @@
+{
+  "name": "Afia_inc",
+  "version": "1.0.0",
+  "description": "Afia is an E-commerce web application",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZICCORP/Afia.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZICCORP/Afia/issues"
+  },
+  "homepage": "https://github.com/ZICCORP/Afia#readme",
+  "devDependencies": {
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.5",
+    "jest": "^26.6.3",
+    "webpack": "^5.11.0",
+    "webpack-bundle-tracker": "^0.4.3",
+    "webpack-cli": "^4.3.0"
+  },
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "frontend"
+    ],
+    "testURL": "http://localhost/"
+  },
+  "dependencies": {
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
