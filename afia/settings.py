@@ -12,6 +12,7 @@ environ.Env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+os.environ["PATH"]+= os.pathsep + "C:/projects/Afia_inc/Graphviz/bin/"
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -33,11 +34,17 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'main.apps.MainConfig',
     'webpack_loader',
+    'django_extensions',
+    'debug_toolbar',
+    'django_tables2',
+    'widget_tweaks',
+    'main.apps.MainConfig',
+    
 ]
 
 MIDDLEWARE = [
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'main.middlewares.basket_middleware',
@@ -47,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+INTERNAL_IPS = ['127.0.0.1']
 
 ROOT_URLCONF = 'afia.urls'
 
@@ -173,3 +182,4 @@ AUTH_USER_MODEL = 'main.User'
 LOGIN_REDIRECT_URL = '/'
 
 
+DJANGO_TABLES2_TEMPLATE = 'django_tables2/bootstrap.html'

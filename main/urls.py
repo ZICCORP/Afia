@@ -22,4 +22,5 @@ urlpatterns = [
     path('about-us/',TemplateView.as_view(template_name='main/about_us.html'),name='about_us'),
     path('contact-us/',views.ContactUsView.as_view(),name='contact_us'),
     path('',TemplateView.as_view(template_name='main/home.html'),name='home'),
+    path('order-dashboard/', views.OrderView.as_view(),name='order_dashboard',),
 ]
