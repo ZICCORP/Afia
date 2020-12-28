@@ -2,9 +2,9 @@ from io import BytesIO
 import logging
 from PIL import Image
 from django.core.files.base import ContentFile
-from django.db.models.signals import pre_save
+from django.db.models.signals import pre_save,post_save
 from django.dispatch import receiver
-from  .models import ProductImage
+from  .models import ProductImage, Basket,OrderLine,Order
 from django.contrib.auth.signals import user_logged_in
 from .models import Basket
 
@@ -26,7 +26,6 @@ def generate_thumbnail(sender,instance,**kwargs):
 
 @receiver(user_logged_in)
 def merge_baskets_if_found(sender, user, request, **kwargs):
-    print(user)
     anonymous_basket = getattr(request, "basket", None)
     if anonymous_basket:
         try:
@@ -48,3 +47,10 @@ def merge_baskets_if_found(sender, user, request, **kwargs):
                 "Assigned user to basket id %d",
                 anonymous_basket.id,
             )
+
+@receiver(post_save,sender=OrderLine)
+def orderline_to_order_status(sender,instance,**kwargs):
+    if not instance.order.lines.filter(status__lt=OrderLine.SENT).exists():
+        logger.info('All lines for order %d has been processed .Marking as done.',instance.order.id,)
+        instance.order.status = Order.DONE
+        instance.order.save()

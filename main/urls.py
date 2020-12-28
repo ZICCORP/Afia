@@ -1,10 +1,15 @@
-from django.urls import path
+from django.urls import path,include
 from django.views.generic import TemplateView,DetailView
 from django.contrib.auth import views as auth_views
 from main import forms
 from main import views
 from main import models
+from rest_framework import routers
+from main import endpoints
 
+router = routers.DefaultRouter()
+router.register(r'Orderlines',endpoints.PaidOrderLineViewSet)
+router.register(r'Order',endpoints.PaidOrderViewSet)
 
 urlpatterns = [
     path('login/',auth_views.LoginView.as_view(template_name='main/login.html',form_class=forms.AuthenticationForm,),name='login',),
@@ -23,4 +28,5 @@ urlpatterns = [
     path('contact-us/',views.ContactUsView.as_view(),name='contact_us'),
     path('',TemplateView.as_view(template_name='main/home.html'),name='home'),
     path('order-dashboard/', views.OrderView.as_view(),name='order_dashboard',),
+    path('api/',include(router.urls)),
 ]
