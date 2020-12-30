@@ -6,6 +6,7 @@ from main import views
 from main import models
 from rest_framework import routers
 from main import endpoints
+from main import admin
 
 router = routers.DefaultRouter()
 router.register(r'Orderlines',endpoints.PaidOrderLineViewSet)
@@ -29,4 +30,7 @@ urlpatterns = [
     path('',TemplateView.as_view(template_name='main/home.html'),name='home'),
     path('order-dashboard/', views.OrderView.as_view(),name='order_dashboard',),
     path('api/',include(router.urls)),
+    path('admin/',admin.main_admin.urls),
+    path('office-admin',admin.central_office_admin.urls),
+    path('dispatch-admin',admin.dispatchers_admin.urls),
 ]
