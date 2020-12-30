@@ -13,7 +13,34 @@ from django import forms
 
 logger = logging.getLogger(__name__)
 
-#@admin.register(models.User)
+def make_active(self,request,queryset):
+    queryset.update(active=True)
+
+make_active.short_description = "Mark selected items as active"
+
+def make_inactive(self,request,queryset):
+    queryset.update(active=False)
+
+make_inactive.short_description = ("Mark selected items as inactive")
+
+class ProductAdmin(admin.ModelAdmin):
+    list_display=('name','slug','in_stock','price')
+    list_filter=('active','in_stock','date_updated')
+    list_editable=('in_stock',)
+    search_fields =('name',)
+    prepopulated_fields= {'slug':('name',)}
+    autocomplete_fields= ('tags',)
+    actions = [make_active,make_inactive]
+
+    def get_readonly_fields(self,request,obj=None):
+        if request.user.is_superuser:
+            return self.readonly_fields
+        return list(self.readonly_fields) + ["slug","name"]
+
+    def get_prepopulated_fields(self,request,obj=None):
+        if request.user.is_superuser:
+            return self.prepopulated_fields
+        return {}
 
 class UserAdmin(DjangoUserAdmin):
     fieldsets = (
@@ -33,25 +60,6 @@ class AddressAdmin(admin.ModelAdmin):
     list_display = ("user","name","address1","address2","city","country",)
     readonly_fields = ("user",)
 
-class ProductAdmin(admin.ModelAdmin):
-    list_display=('name','slug','in_stock','price')
-    list_filter=('active','in_stock','date_updated')
-    list_editable=('in_stock',)
-    search_fields =('name',)
-    prepopulated_fields= {'slug':('name',)}
-    autocomplete_fields= ('tags',)
-
-    def get_readonly_fields(self,request,obj=None):
-        if request.user.is_superuser:
-            return self.readonly_fields
-        return list(self.readonly_fields) + ["slug","name"]
-
-    def get_prepopulated_fields(self,request,obj=None):
-        if request.user.is_superuser:
-            return self.prepopulated_fields
-        return {}
-
-#admin.site.register(models.Product,ProductAdmin)
 
 class DispatchersProductAdmin(ProductAdmin):
     read_only_fields = ("description","price","tags","active")
