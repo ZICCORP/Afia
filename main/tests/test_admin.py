@@ -2,6 +2,9 @@ from django.test import TestCase
 from django.urls import reverse
 from main import factories
 from main import models
+from datetime import datetime
+from decimal import Decimal
+from unittest.mock import patch
 
 
 class TestAdminViews(TestCase):
@@ -26,4 +29,5 @@ class TestAdminViews(TestCase):
         self.assertEqual(response.status_code,200)
         data = dict(zip(response.context["labels"],response.context['values'],))
         self.assertEqual(data,  {"B": 3, "C": 2, "A": 6})
- 
+
+    
